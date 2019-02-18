@@ -13,7 +13,7 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate {
     
     @IBOutlet var sceneView: ARSCNView!
-    var webView = UIWebView()
+    //var webView = UIWebView()
     
     var webViews = [String : UIWebView]()
     
@@ -32,10 +32,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate {
         // Set the scene to the view
         sceneView.scene = scene
         
-        webView = UIWebView(frame: CGRect(x: 0, y: 0, width: 640, height: 480))
+        /*webView = UIWebView(frame: CGRect(x: 0, y: 0, width: 640, height: 480))
         webView.delegate = self
         let defaultRequest = URLRequest(url: URL(string: "https://www.google.se")!)
-        webView.loadRequest(defaultRequest)
+        webView.loadRequest(defaultRequest)*/
+        addPinchGesturesToSceneView()
     }
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
@@ -139,4 +140,34 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate {
         // Reset tracking and/or remove existing anchors if consistent tracking is required
         
     }
+    
+    func addPinchGesturesToSceneView() {
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(self.scaleObject(gesture:)))
+        self.view?.addGestureRecognizer(pinchGesture)
+    }
+    
+    /// Scales An SCNNode
+    ///
+    /// - Parameter gesture: UIPinchGestureRecognizer
+    @objc func scaleObject(gesture: UIPinchGestureRecognizer) {
+        
+        let pinchLocation = gesture.location(in: sceneView)
+        let hitTestResults = sceneView.hitTest(pinchLocation)
+        
+        if let nodeToScale = hitTestResults.first?.node {
+            if gesture.state == .changed {
+                
+                let pinchScaleX: CGFloat = gesture.scale * CGFloat((nodeToScale.scale.x))
+                let pinchScaleY: CGFloat = gesture.scale * CGFloat((nodeToScale.scale.y))
+                let pinchScaleZ: CGFloat = gesture.scale * CGFloat((nodeToScale.scale.z))
+                nodeToScale.scale = SCNVector3Make(Float(pinchScaleX), Float(pinchScaleY), Float(pinchScaleZ))
+                gesture.scale = 1
+                
+            }
+            if gesture.state == .ended { }
+        } else {
+            return
+        }
+    }
+    
 }

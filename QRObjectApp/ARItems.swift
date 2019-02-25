@@ -14,8 +14,9 @@ struct ARItemElement: Codable {
     let id, name: String
     let url: String
     let img, width, height, description: String
-    let active, stampCreated: JSONNull?
-    let stampUpdated: String
+    let active: JSONNull?
+    let stampCreated: String
+    let stampUpdated: JSONNull?
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"
@@ -24,6 +25,8 @@ struct ARItemElement: Codable {
         case stampUpdated = "stamp_updated"
     }
 }
+
+// MARK: Encode/decode helpers
 
 class JSONNull: Codable, Hashable {
     

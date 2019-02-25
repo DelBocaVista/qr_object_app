@@ -33,4 +33,14 @@ class ARItemsModel {
         }
         return nil
     }
+    
+    func getARItemBy(imageName: String) -> ARItemElement? {
+        
+        for arItem in arItems {
+            if arItem.img == imageName {
+                return arItem
+            }
+        }
+        return nil
+    }
 }

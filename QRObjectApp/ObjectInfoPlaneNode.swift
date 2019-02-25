@@ -10,7 +10,7 @@ import Foundation
 import SceneKit
 import ARKit
 
-class InfoPlaneNode: SCNNode {
+class ObjectInfoPlaneNode: SCNNode {
     
     var infoPlane: SCNPlane
     

@@ -5,13 +5,13 @@
   },
   "resources" : [
     {
-      "filename" : "emoji_man.arreferenceimage"
+      "filename" : "man.arreferenceimage"
     },
     {
-      "filename" : "emoji_sick.arreferenceimage"
+      "filename" : "poop.arreferenceimage"
     },
     {
-      "filename" : "emoji_smart.arreferenceimage"
+      "filename" : "smart.arreferenceimage"
     }
   ]
 }

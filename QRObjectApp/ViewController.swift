@@ -10,11 +10,12 @@ import UIKit
 import SceneKit
 import ARKit
 
-class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate {
+class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate, ARSessionDelegate {
     
     @IBOutlet var sceneView: ARSCNView!
     //var webView = UIWebView()
     
+    var renderedNodes = [String : SCNNode]()
     var webViews = [String : UIWebView]()
     let configuration = ARWorldTrackingConfiguration()
     
@@ -23,7 +24,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate {
         
         // Set the view's delegate
         sceneView.delegate = self
-        
+        sceneView.session.delegate = self
         // Show statistics such as fps and timing information
         //sceneView.showsStatistics = true
         
@@ -51,7 +52,10 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate {
             }
         }
         
-        if case let node as InfoPlaneNode = sceneView.scene.rootNode.childNode(withName: viewName, recursively: true) {
+        if case let node as ObjectInfoPlaneNode = sceneView.scene.rootNode.childNode(withName: viewName, recursively: true) {
+            print("Found node")
+            node.set(contents: webView)
+        } else if case let node as ImageInfoPlaneNode = sceneView.scene.rootNode.childNode(withName: viewName, recursively: true) {
             print("Found node")
             node.set(contents: webView)
         } else {
@@ -76,7 +80,23 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate {
         // Pause the view's session
         sceneView.session.pause()
     }
-
+    
+    // MARK: - ARSessionDelegate
+    
+    func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
+        for anchor in anchors {
+            if let imageAnchor = anchor as? ARImageAnchor {
+                if self.renderedNodes.keys.contains(imageAnchor.referenceImage.name!) {
+                    let correspondingNode = self.renderedNodes[imageAnchor.referenceImage.name!]
+    
+                    //correspondingNode!.simdTransform = imageAnchor.transform//.simdWorldOrientation = imageAnchor.transform
+                    correspondingNode!.worldPosition.x = imageAnchor.transform.columns.3.x - Float((imageAnchor.referenceImage.physicalSize.width - CGFloat(0.8)) / 2)
+                    correspondingNode!.worldPosition.y = imageAnchor.transform.columns.3.y + Float((imageAnchor.referenceImage.physicalSize.height - CGFloat(0.6)) / 2)
+                }
+            }
+        }
+    }
+    
     // MARK: - ARSCNViewDelegate
     
     // Override to create and configure nodes for anchors added to the view's session.
@@ -119,9 +139,35 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate {
                 self.webViews[arItemId] = newWebView
             }
             
-            let planeNode = InfoPlaneNode(width: CGFloat(0.2), height: CGFloat(0.15), objectAnchor: objectAnchor)
+            let planeNode = ObjectInfoPlaneNode(width: CGFloat(0.2), height: CGFloat(0.15), objectAnchor: objectAnchor)
             planeNode.set(name: arItemId)
             node.addChildNode(planeNode)
+        } else if let imageAnchor = anchor as? ARImageAnchor {
+            
+            //let baseUrl = "http://kth.elack.net/items/"
+            var arItemId = "error"
+            var itemUrl = "http://kth.elack.net/items/"
+            
+            if let arItem = arItemsModel.getARItemBy(imageName: imageAnchor.name!) {
+                arItemId = arItem.id
+                print(arItem.url)
+                //itemUrl = arItem.url
+            }
+            
+            //let itemUrl = baseUrl + arItemId
+            
+            DispatchQueue.main.async {
+                let newWebView = UIWebView(frame: CGRect(x: 0, y: 0, width: 640, height: 480))
+                newWebView.delegate = self
+                let request = URLRequest(url: URL(string: itemUrl)!)
+                print(request.debugDescription)
+                newWebView.loadRequest(request)
+                self.webViews[arItemId] = newWebView
+            }
+            let imageInfoNode = ImageInfoPlaneNode(width: 0.8, height: 0.6, imageAnchor: imageAnchor)
+            imageInfoNode.set(name: arItemId)
+            self.renderedNodes[imageAnchor.referenceImage.name!] = imageInfoNode
+            sceneView.scene.rootNode.addChildNode(imageInfoNode)
         }
         
         return node

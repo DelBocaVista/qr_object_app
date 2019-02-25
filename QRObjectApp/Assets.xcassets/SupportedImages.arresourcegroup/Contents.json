@@ -1,0 +1,17 @@
+{
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  },
+  "resources" : [
+    {
+      "filename" : "emoji_man.arreferenceimage"
+    },
+    {
+      "filename" : "emoji_sick.arreferenceimage"
+    },
+    {
+      "filename" : "emoji_smart.arreferenceimage"
+    }
+  ]
+}

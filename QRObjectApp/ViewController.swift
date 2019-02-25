@@ -16,6 +16,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate {
     //var webView = UIWebView()
     
     var webViews = [String : UIWebView]()
+    let configuration = ARWorldTrackingConfiguration()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,9 +63,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate {
         super.viewWillAppear(animated)
         
         // Create a session configuration
-        let configuration = ARWorldTrackingConfiguration()
+        //let configuration = ARWorldTrackingConfiguration()
         configuration.detectionObjects = ARReferenceObject.referenceObjects(inGroupNamed: "SupportedObjects", bundle: Bundle.main)!
-        
+        configuration.detectionImages = ARReferenceImage.referenceImages(inGroupNamed: "SupportedImages", bundle: Bundle.main)!
         // Run the view's session
         sceneView.session.run(configuration)
     }

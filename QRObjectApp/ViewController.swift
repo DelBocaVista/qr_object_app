@@ -151,7 +151,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate, AR
             if let arItem = arItemsModel.getARItemBy(imageName: imageAnchor.name!) {
                 arItemId = arItem.id
                 print(arItem.url)
-                //itemUrl = arItem.url
+                itemUrl = arItem.url
             }
             
             //let itemUrl = baseUrl + arItemId
@@ -167,10 +167,31 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate, AR
             let imageInfoNode = ImageInfoPlaneNode(width: 0.8, height: 0.6, imageAnchor: imageAnchor)
             imageInfoNode.set(name: arItemId)
             self.renderedNodes[imageAnchor.referenceImage.name!] = imageInfoNode
-            sceneView.scene.rootNode.addChildNode(imageInfoNode)
+            
+            // Test
+            DispatchQueue.main.async {
+                let image = UIImage(named: "spinner-of-dots")
+                let imageView = UIImageView(image: image!)
+                imageView.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
+                let myView = UIView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+                myView.addSubview(imageView)
+                myView.rotate360Degrees()
+                imageInfoNode.set(contents: myView)
+                self.sceneView.scene.rootNode.addChildNode(imageInfoNode)
+            }
         }
         
         return node
+    }
+    
+    var rotateSprite: SKAction {
+        return .sequence([
+            SKAction.rotate(byAngle: 360, duration: 2),
+            SKAction.rotate(byAngle: 360, duration: 2),
+            SKAction.rotate(byAngle: 360, duration: 2),
+            SKAction.rotate(byAngle: 360, duration: 2),
+            SKAction.rotate(byAngle: 360, duration: 2)
+            ])
     }
     
     func session(_ session: ARSession, didFailWithError error: Error) {
@@ -217,4 +238,16 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate, AR
         }
     }
     
+}
+
+extension UIView {
+    func rotate360Degrees(duration: CFTimeInterval = 3) {
+        let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        rotateAnimation.fromValue = 0.0
+        rotateAnimation.toValue = CGFloat(M_PI * 2)
+        rotateAnimation.isRemovedOnCompletion = false
+        rotateAnimation.duration = duration
+        rotateAnimation.repeatCount=Float.infinity
+        self.layer.add(rotateAnimation, forKey: nil)
+    }
 }

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		32299B132224605200C6675A /* ARItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32299B122224605200C6675A /* ARItems.swift */; };
 		32299B1522249B0400C6675A /* ImageInfoPlaneNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32299B1422249B0400C6675A /* ImageInfoPlaneNode.swift */; };
+		3276BB37222588BB0053536F /* LoadingPageScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 3276BB36222588BB0053536F /* LoadingPageScene.sks */; };
 		32F5BE502211A1BC00ADBCDA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F5BE4F2211A1BC00ADBCDA /* AppDelegate.swift */; };
 		32F5BE522211A1BC00ADBCDA /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 32F5BE512211A1BC00ADBCDA /* art.scnassets */; };
 		32F5BE542211A1BC00ADBCDA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F5BE532211A1BC00ADBCDA /* ViewController.swift */; };
@@ -24,6 +25,7 @@
 /* Begin PBXFileReference section */
 		32299B122224605200C6675A /* ARItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARItems.swift; sourceTree = "<group>"; };
 		32299B1422249B0400C6675A /* ImageInfoPlaneNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageInfoPlaneNode.swift; sourceTree = "<group>"; };
+		3276BB36222588BB0053536F /* LoadingPageScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = LoadingPageScene.sks; sourceTree = "<group>"; };
 		32F5BE4C2211A1BC00ADBCDA /* QRObjectApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QRObjectApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		32F5BE4F2211A1BC00ADBCDA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		32F5BE512211A1BC00ADBCDA /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 				32F5BE692214309500ADBCDA /* ObjectInfoPlaneNode.swift */,
 				32299B122224605200C6675A /* ARItems.swift */,
 				32299B1422249B0400C6675A /* ImageInfoPlaneNode.swift */,
+				3276BB36222588BB0053536F /* LoadingPageScene.sks */,
 			);
 			path = QRObjectApp;
 			sourceTree = "<group>";
@@ -144,6 +147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				32F5BE522211A1BC00ADBCDA /* art.scnassets in Resources */,
+				3276BB37222588BB0053536F /* LoadingPageScene.sks in Resources */,
 				32F5BE5C2211A1C100ADBCDA /* LaunchScreen.storyboard in Resources */,
 				32F5BE592211A1C100ADBCDA /* Assets.xcassets in Resources */,
 				32F5BE572211A1BC00ADBCDA /* Main.storyboard in Resources */,

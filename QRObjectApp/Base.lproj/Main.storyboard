@@ -29,6 +29,21 @@
             </objects>
             <point key="canvasLocation" x="504.80000000000001" y="10.344827586206897"/>
         </scene>
+        <!--Start Screen View Controller-->
+        <scene sceneID="rVm-WO-DLD">
+            <objects>
+                <viewController id="OXA-rz-4o5" customClass="StartScreenViewController" customModule="QRObjectApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="4Us-HP-GLK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="rng-Yt-jjr"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mI2-OH-Mm8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="39" y="709"/>
+        </scene>
         <!--View Controller-->
         <scene sceneID="tXr-a1-R10">
             <objects>

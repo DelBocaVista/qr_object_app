@@ -28,7 +28,7 @@ public class IOManager: NSObject {
         let baseURL = "http://kth.elack.net:8081/$URL$"
         
         let completeURL: String = replaceHolders(baseString: baseURL, idURL: idURL)
-        
+        print("completeURL: " + completeURL)
         guard let url = URL(string: completeURL) else {return}
         
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in

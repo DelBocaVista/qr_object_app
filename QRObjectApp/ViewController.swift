@@ -88,10 +88,20 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate, AR
             if let imageAnchor = anchor as? ARImageAnchor {
                 if self.renderedNodes.keys.contains(imageAnchor.referenceImage.name!) {
                     let correspondingNode = self.renderedNodes[imageAnchor.referenceImage.name!]
-    
+                    
+                    var planeWidth: CGFloat = 0.8
+                    var planeHeight: CGFloat = 0.6
+                    
+                    if let arItem = arItemsModel.getARItemBy(imageName: imageAnchor.name!) {
+                        planeWidth = CGFloat(Double(arItem.width)! / 1000)
+                        planeHeight = CGFloat(Double(arItem.height)! / 1000)
+                    }
+                    
                     //correspondingNode!.simdTransform = imageAnchor.transform//.simdWorldOrientation = imageAnchor.transform
-                    correspondingNode!.worldPosition.x = imageAnchor.transform.columns.3.x - Float((imageAnchor.referenceImage.physicalSize.width - CGFloat(0.8)) / 2)
-                    correspondingNode!.worldPosition.y = imageAnchor.transform.columns.3.y + Float((imageAnchor.referenceImage.physicalSize.height - CGFloat(0.6)) / 2)
+                    /*correspondingNode!.worldPosition.x = imageAnchor.transform.columns.3.x - Float((imageAnchor.referenceImage.physicalSize.width - CGFloat(0.8)) / 2)
+                    correspondingNode!.worldPosition.y = imageAnchor.transform.columns.3.y + Float((imageAnchor.referenceImage.physicalSize.height - CGFloat(0.6)) / 2)*/
+                    correspondingNode!.worldPosition.x = imageAnchor.transform.columns.3.x - Float((imageAnchor.referenceImage.physicalSize.width - planeWidth) / 2)
+                    correspondingNode!.worldPosition.y = imageAnchor.transform.columns.3.y + Float((imageAnchor.referenceImage.physicalSize.height - planeHeight) / 2)
                 }
             }
         }
@@ -147,11 +157,15 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate, AR
             //let baseUrl = "http://kth.elack.net/items/"
             var arItemId = "error"
             var itemUrl = "http://kth.elack.net/items/"
+            var planeWidth: CGFloat = 0.8
+            var planeHeight: CGFloat = 0.6
             
             if let arItem = arItemsModel.getARItemBy(imageName: imageAnchor.name!) {
                 arItemId = arItem.id
-                print(arItem.url)
+                print("arItem.url:" + arItem.url)
                 itemUrl = arItem.url
+                planeWidth = CGFloat(Double(arItem.width)! / 1000)
+                planeHeight = CGFloat(Double(arItem.height)! / 1000)
             }
             
             //let itemUrl = baseUrl + arItemId
@@ -164,10 +178,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate, AR
                 newWebView.loadRequest(request)
                 self.webViews[arItemId] = newWebView
             }
-            let imageInfoNode = ImageInfoPlaneNode(width: 0.8, height: 0.6, imageAnchor: imageAnchor)
+            //let imageInfoNode = ImageInfoPlaneNode(width: 0.8, height: 0.6, imageAnchor: imageAnchor)
+            let imageInfoNode = ImageInfoPlaneNode(width: planeWidth, height: planeHeight, imageAnchor: imageAnchor)
             imageInfoNode.set(name: arItemId)
             self.renderedNodes[imageAnchor.referenceImage.name!] = imageInfoNode
             
+            // Maybe remove later
+            //self.sceneView.scene.rootNode.addChildNode(imageInfoNode)
             // Test
             DispatchQueue.main.async {
                 let image = UIImage(named: "spinner-of-dots")

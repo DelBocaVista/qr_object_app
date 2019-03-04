@@ -23,7 +23,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        initAlerts()
         // Set listener to notification key
         NotificationCenter.default.addObserver(self, selector:
             #selector(ScannerViewController.NotificationSent), name:
@@ -176,7 +176,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         //ioManager.fetchData(idURL: scannedCode)   <-- Use this later!
         ioManager.fetchData(idURL: "items")
         
-        //performSegue(withIdentifier: "segueToARSCNView", sender: nil)
+        performSegue(withIdentifier: "segueToARSCNView", sender: nil)
     }
     
     func initAlerts() {

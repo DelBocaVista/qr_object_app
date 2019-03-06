@@ -31,14 +31,14 @@ typealias ARItems = [ARItemElement]
 struct ARItemElement: Codable {
     let id, name: String
     let url: String
-    let img, width, height, description: String
+    let img, width, height, direction, description: String
     let active: String?
     let stampCreated: String
     let stampUpdated: String?
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"
-        case name, url, img, width, height, description, active
+        case name, url, img, width, height, direction, description, active
         case stampCreated = "stamp_created"
         case stampUpdated = "stamp_updated"
     }

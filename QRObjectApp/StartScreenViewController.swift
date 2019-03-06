@@ -15,7 +15,7 @@ class StartScreenViewController: UIViewController {
     @IBOutlet weak var button: UIButton!
     
     @IBAction func buttonPressed(_ sender: Any) {
-        UIView.animate(withDuration: 1, delay: 0, options: .curveLinear, animations: {
+        /*UIView.animate(withDuration: 1, delay: 0, options: .curveLinear, animations: {
             //self.logo.rotate360Degrees(duration: 1)
             self.logo.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
             self.logo.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
@@ -24,8 +24,8 @@ class StartScreenViewController: UIViewController {
             self.performSegue(withIdentifier: "segueToQRScan", sender: nil)
         }) { (success: Bool) in
             
-        }
-        
+        }*/
+        self.performSegue(withIdentifier: "segueToQRScan", sender: nil)
     }
     
     var isFirstRun = true
@@ -50,12 +50,15 @@ class StartScreenViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        // Hide the navigation bar on the this view controller
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        
         if isFirstRun {
             let oldLogoCenter = logo.center
-            let newLogoCenter = CGPoint(x: oldLogoCenter.x , y: oldLogoCenter.y - 130)
+            let newLogoCenter = CGPoint(x: oldLogoCenter.x , y: oldLogoCenter.y - 90)
             
             let oldLabelCenter = label.center
-            let newLabelCenter = CGPoint(x: oldLabelCenter.x, y: oldLabelCenter.y - 130)
+            let newLabelCenter = CGPoint(x: oldLabelCenter.x, y: oldLabelCenter.y - 90)
             
             UIView.animate(withDuration: 1, delay: 1, options: .curveLinear, animations: {
                 self.logo.center = newLogoCenter
@@ -64,7 +67,7 @@ class StartScreenViewController: UIViewController {
                 
             }
             
-            UIView.animate(withDuration: 1.5, delay: 1, options: .curveLinear, animations: {
+            UIView.animate(withDuration: 1, delay: 1.6, options: .curveLinear, animations: {
                 self.button.alpha = 1.0
             }) { (success: Bool) in
                 
@@ -72,6 +75,13 @@ class StartScreenViewController: UIViewController {
             
             isFirstRun = false
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Show the navigation bar on other view controllers
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
     }
 
 }

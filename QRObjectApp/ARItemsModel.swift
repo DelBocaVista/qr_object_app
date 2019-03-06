@@ -7,10 +7,13 @@
 //
 
 import Foundation
+import ARKit
+import UIKit
 
 class ARItemsModel {
     
     private var arItems: ARItems
+    private var previewImages: [String : UIImage] = [:]
     
     init() {
         self.arItems = ARItems()
@@ -42,5 +45,26 @@ class ARItemsModel {
             }
         }
         return nil
+    }
+    
+    func populatePreviewImages() {
+        /*guard let supportedImages = ARReferenceImage.referenceImages(inGroupNamed: "SupportedImages", bundle: nil)
+            else {
+                fatalError("Missing expected asset catalog resources.")
+        }
+        
+        for image in supportedImages {
+            previewImages[image.name!] =
+        }
+        
+        guard let supportedObjects = ARReferenceObject.referenceObjects(inGroupNamed: "SupportedObjects", bundle: nil)
+            else {
+                fatalError("Missing expected asset catalog resources.")
+        }
+        
+        for object in supportedObjects {
+            previewImages[object.name ?? <#default value#>] = object.preview
+        }*/
+        
     }
 }

@@ -7,12 +7,28 @@
 //
 
 import UIKit
+import ARKit
+
+class ARItemTableViewCell: UITableViewCell {
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var itemImageView: UIImageView!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    /*@IBOutlet weak var dateLabel: UILabel!
+     @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var cloudCoverLabel: UILabel!*/
+}
 
 class TableViewController: UITableViewController {
 
+    @IBOutlet var table: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        table.dataSource = self
+        //table.delegate = self
+        
+        table.rowHeight = 90.0
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -21,26 +37,56 @@ class TableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return arItemsModel.getARItemsData().count
     }
-
+    
     /*
+     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+     // #warning Incomplete implementation, return the number of rows
+     return weatherModel.getWeatherData().count
+     }
+     
+     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+     let cell = tableView.dequeueReusableCell(withIdentifier: "WeatherCell", for: indexPath)
+     as! WeatherTableViewCell
+     
+     let formatDate = DateFormatter()
+     formatDate.dateFormat = "yyyy-MM-dd HH:mm"
+     
+     cell.dateLabel?.text = formatDate.string(from: weatherModel.getWeatherData()[indexPath.row].date)
+     cell.temperatureLabel?.text = weatherModel.getWeatherData()[indexPath.row].temperature.description  + "℃"
+     cell.cloudCoverLabel?.text = translateWeatherToIcon(forecast: weatherModel.getWeatherData()[indexPath.row])
+     
+     return cell
+     }
+     */
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customcell", for: indexPath) as! ARItemTableViewCell
+        
+        let arItem = arItemsModel.getARItemsData()[indexPath.row]
+        
+        if let image = UIImage(named: arItem.img) {
+            cell.itemImageView?.image = image
+        }
+        
+        cell.nameLabel?.text = arItem.name
+        cell.descriptionLabel?.text = arItem.description
+        
+        
+        
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.

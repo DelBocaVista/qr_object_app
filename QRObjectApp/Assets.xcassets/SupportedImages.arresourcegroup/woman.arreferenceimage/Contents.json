@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "poop.jpg"
+      "filename" : "emote_woman.png"
     }
   ],
   "info" : {
@@ -10,6 +10,6 @@
     "author" : "xcode"
   },
   "properties" : {
-    "width" : 0.081000000000000003
+    "width" : 0.080000000000000002
   }
 }

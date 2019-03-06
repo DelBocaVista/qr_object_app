@@ -41,7 +41,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate, AR
         addPinchGesturesToSceneView()
     }
     
-    func webViewDidFinishLoad(_ webView: UIWebView) {
+     func webViewDidFinishLoad(_ webView: UIWebView) {
         print("WebView finished loading!")
         
         var viewName = ""
@@ -159,6 +159,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate, AR
             var itemUrl = "http://kth.elack.net/items/"
             var planeWidth: CGFloat = 0.8
             var planeHeight: CGFloat = 0.6
+            var direction = "C" // Assume center
             
             if let arItem = arItemsModel.getARItemBy(imageName: imageAnchor.name!) {
                 arItemId = arItem.id
@@ -166,6 +167,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate, AR
                 itemUrl = arItem.url
                 planeWidth = CGFloat(Double(arItem.width)! / 1000)
                 planeHeight = CGFloat(Double(arItem.height)! / 1000)
+                direction = arItem.direction
             }
             
             //let itemUrl = baseUrl + arItemId
@@ -179,7 +181,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate, AR
                 self.webViews[arItemId] = newWebView
             }
             //let imageInfoNode = ImageInfoPlaneNode(width: 0.8, height: 0.6, imageAnchor: imageAnchor)
-            let imageInfoNode = ImageInfoPlaneNode(width: planeWidth, height: planeHeight, imageAnchor: imageAnchor)
+            let imageInfoNode = ImageInfoPlaneNode(width: planeWidth, height: planeHeight, imageAnchor: imageAnchor, direction: direction)
             imageInfoNode.set(name: arItemId)
             self.renderedNodes[imageAnchor.referenceImage.name!] = imageInfoNode
             
@@ -187,10 +189,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate, AR
             //self.sceneView.scene.rootNode.addChildNode(imageInfoNode)
             // Test
             DispatchQueue.main.async {
-                let image = UIImage(named: "spinner-of-dots")
+                //let image = UIImage(named: "spinner-of-dots")
+                let image = UIImage(named: "load_spinner")
                 let imageView = UIImageView(image: image!)
-                imageView.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
-                let myView = UIView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+                imageView.frame = CGRect(x: 0, y: 0, width: 600, height: 600)
+                let myView = UIView(frame: CGRect(x: 0, y: 0, width: 600, height: 600))
                 myView.addSubview(imageView)
                 myView.rotate360Degrees()
                 imageInfoNode.set(contents: myView)
@@ -254,14 +257,13 @@ class ViewController: UIViewController, ARSCNViewDelegate, UIWebViewDelegate, AR
             return
         }
     }
-    
 }
 
 extension UIView {
     func rotate360Degrees(duration: CFTimeInterval = 3) {
         let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
         rotateAnimation.fromValue = 0.0
-        rotateAnimation.toValue = CGFloat(M_PI * 2)
+        rotateAnimation.toValue = CGFloat(Double.pi * 2)
         rotateAnimation.isRemovedOnCompletion = false
         rotateAnimation.duration = duration
         rotateAnimation.repeatCount=Float.infinity

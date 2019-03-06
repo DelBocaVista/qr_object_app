@@ -21,9 +21,14 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
     
     var alertNoDataFetched = UIAlertController()
     
+    var isCoordinatesSet = false
+    var setRectX: CGFloat = 0
+    var setRectY: CGFloat = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initAlerts()
+        
         // Set listener to notification key
         NotificationCenter.default.addObserver(self, selector:
             #selector(ScannerViewController.NotificationSent), name:
@@ -32,7 +37,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         // Do any additional setup after loading the view.
         captureDevice = AVCaptureDevice.default(for: .video)
         // Check if captureDevice returns a value and unwrap it
-        if let captureDevice = captureDevice {
+        /*if let captureDevice = captureDevice {
             
             do {
                 let input = try AVCaptureDeviceInput(device: captureDevice)
@@ -61,7 +66,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             } catch {
                 print("Error Device Input")
             }
-        }
+        }*/
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,10 +89,19 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             videoPreviewLayer?.videoGravity = .resizeAspectFill
             videoPreviewLayer?.frame = view.layer.bounds
             
+            let navbarHeight = self.navigationController!.navigationBar.frame.height
+            print("navbarHeight: " + navbarHeight.description)
             let rectSize: CGFloat = 200
-            let rectX = ((videoPreviewLayer?.frame.size.width)! - rectSize) / 2
-            let rectY = ((videoPreviewLayer?.frame.size.height)! - rectSize) / 2
-            let scanRect = CGRect(x: rectX, y: rectY, width: rectSize, height: rectSize)
+            
+            // Quick-fix thanks to videoPreviewLayer?.frame.size.height being smaller when popped
+            // from view stack, no idea why.
+            if !isCoordinatesSet {
+                setRectX = ((videoPreviewLayer?.frame.size.width)! - rectSize) / 2
+                setRectY = ((videoPreviewLayer?.frame.size.height)! - rectSize) / 2 - navbarHeight
+                isCoordinatesSet = true
+            }
+            
+            let scanRect = CGRect(x: setRectX, y: setRectY, width: rectSize, height: rectSize)
             
             captureSession.startRunning()
             let rectOfInterest = videoPreviewLayer!.metadataOutputRectConverted(fromLayerRect: scanRect)
@@ -96,7 +110,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             view.layer.addSublayer(videoPreviewLayer!)
             
             let codeFrame = UIView()
-            codeFrame.layer.borderColor = UIColor.init(white: 1.0, alpha: 0.3).cgColor
+            codeFrame.layer.borderColor = UIColor.init(white: 1.0, alpha: 0.4).cgColor
             codeFrame.layer.borderWidth = 15
             codeFrame.frame = CGRect.zero
             codeFrame.translatesAutoresizingMaskIntoConstraints = false
@@ -183,7 +197,8 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
                 //self.table.reloadData()
                 // Make segue to AR
                 //print(data.debugDescription)
-                self.performSegue(withIdentifier: "segueToARSCNView", sender: nil)
+                //self.performSegue(withIdentifier: "segueToARSCNView", sender: nil)
+                self.performSegue(withIdentifier: "segueToTableView2", sender: nil)
             }
         } else {
             DispatchQueue.main.async {

@@ -25,6 +25,8 @@
                     </navigationItem>
                     <connections>
                         <segue destination="BV1-FR-VrT" kind="show" identifier="segueToARSCNView" id="wvK-dv-FUf"/>
+                        <segue destination="pOA-VU-hBH" kind="show" identifier="segueToTableView" id="Foi-LM-i7V"/>
+                        <segue destination="SvO-hF-Pe3" kind="show" identifier="segueToTableView2" id="R0g-vQ-EXr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tnI-FC-Ql9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -34,28 +36,44 @@
         <!--Table View Controller-->
         <scene sceneID="st4-lk-vpC">
             <objects>
-                <tableViewController id="pOA-VU-hBH" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Hw9-f5-hA6">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <tableViewController id="pOA-VU-hBH" customClass="TableViewController" customModule="QRObjectApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" id="Hw9-f5-hA6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" textLabel="s5X-Ln-PVa" style="IBUITableViewCellStyleDefault" id="CPj-rr-RKF">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="customcell" rowHeight="90" id="CPj-rr-RKF" customClass="ARItemTableViewCell" customModule="QRObjectApp" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="90"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CPj-rr-RKF" id="MOA-eV-sn3">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="89.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="s5X-Ln-PVa">
-                                            <rect key="frame" x="16" y="0.0" width="343" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo200" translatesAutoresizingMaskIntoConstraints="NO" id="qLe-LM-09m" userLabel="Image">
+                                            <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iis-ww-wwA" userLabel="DescriptionLabel">
+                                            <rect key="frame" x="98" y="34" width="261" height="45"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="28O-PB-RaB" userLabel="NameLabel">
+                                            <rect key="frame" x="98" y="11" width="261" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="descriptionLabel" destination="Iis-ww-wwA" id="SER-cB-AWS"/>
+                                    <outlet property="itemImageView" destination="qLe-LM-09m" id="rYl-rw-L14"/>
+                                    <outlet property="nameLabel" destination="28O-PB-RaB" id="hQN-WG-hgP"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -63,10 +81,101 @@
                             <outlet property="delegate" destination="pOA-VU-hBH" id="aTe-VR-BX3"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="table" destination="Hw9-f5-hA6" id="Vgw-it-vWS"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tIg-OU-cnn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="79" y="797"/>
+            <point key="canvasLocation" x="77.599999999999994" y="796.55172413793105"/>
+        </scene>
+        <!--Scannable Items-->
+        <scene sceneID="KFu-lr-NQC">
+            <objects>
+                <viewController title="Scannable Items" id="SvO-hF-Pe3" customClass="ItemTableViewController" customModule="QRObjectApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="67T-3q-p7N">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="7Jt-5U-CuM">
+                                <rect key="frame" x="20" y="539" width="335" height="44"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ke5-kZ-HT0">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="44"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                        <state key="normal" title="OK"/>
+                                        <connections>
+                                            <action selector="button:" destination="SvO-hF-Pe3" eventType="touchUpInside" id="liW-I1-aCw"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="KtA-7i-qTf">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="519"/>
+                                <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fnL-Rk-l9h">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="519"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="itemCell" rowHeight="90" id="D52-Vj-SxJ" customClass="ItemTableViewCell" customModule="QRObjectApp" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="28" width="375" height="90"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="D52-Vj-SxJ" id="sh7-G0-CIU">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="89.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="no_image" translatesAutoresizingMaskIntoConstraints="NO" id="EBA-5h-A2Y">
+                                                            <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        </imageView>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ckf-pv-C9M">
+                                                            <rect key="frame" x="98" y="11" width="262" height="21"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x69-fx-o6j">
+                                                            <rect key="frame" x="98" y="40" width="262" height="21"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="descriptionLabel" destination="x69-fx-o6j" id="Dhs-Fp-erh"/>
+                                                    <outlet property="itemImageView" destination="EBA-5h-A2Y" id="pzJ-Dy-8F0"/>
+                                                    <outlet property="nameLabel" destination="ckf-pv-C9M" id="GLO-ql-pz7"/>
+                                                </connections>
+                                            </tableViewCell>
+                                        </prototypes>
+                                    </tableView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.20000000000000001" green="0.57647058823529407" blue="0.85098039215686272" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="7Jt-5U-CuM" firstAttribute="leading" secondItem="1wj-zm-Fue" secondAttribute="leading" constant="20" id="0qp-2x-3UG"/>
+                            <constraint firstItem="7Jt-5U-CuM" firstAttribute="top" secondItem="KtA-7i-qTf" secondAttribute="bottom" constant="20" id="2es-ef-WL5"/>
+                            <constraint firstItem="KtA-7i-qTf" firstAttribute="leading" secondItem="1wj-zm-Fue" secondAttribute="leading" id="5gh-8F-e9V"/>
+                            <constraint firstItem="KtA-7i-qTf" firstAttribute="top" secondItem="1wj-zm-Fue" secondAttribute="top" id="DtI-3S-iZI"/>
+                            <constraint firstItem="KtA-7i-qTf" firstAttribute="trailing" secondItem="1wj-zm-Fue" secondAttribute="trailing" id="Uic-A4-29r"/>
+                            <constraint firstItem="7Jt-5U-CuM" firstAttribute="top" secondItem="KtA-7i-qTf" secondAttribute="bottom" constant="20" id="eUw-yA-4KA"/>
+                            <constraint firstItem="1wj-zm-Fue" firstAttribute="bottom" secondItem="7Jt-5U-CuM" secondAttribute="bottom" constant="20" id="fh7-cv-NXD"/>
+                            <constraint firstItem="1wj-zm-Fue" firstAttribute="trailing" secondItem="7Jt-5U-CuM" secondAttribute="trailing" constant="20" id="ghw-a4-4VZ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="1wj-zm-Fue"/>
+                    </view>
+                    <connections>
+                        <outlet property="table" destination="fnL-Rk-l9h" id="6rd-Lb-jcO"/>
+                        <segue destination="BV1-FR-VrT" kind="show" identifier="segueToARSCNView2" id="ru3-Yj-yFw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hcf-nv-eGB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="781.60000000000002" y="796.55172413793105"/>
         </scene>
         <!--Start Screen View Controller-->
         <scene sceneID="rVm-WO-DLD">
@@ -77,18 +186,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="hNx-yR-Nkm">
-                                <rect key="frame" x="61" y="209" width="120" height="120"/>
+                                <rect key="frame" x="61" y="273" width="120" height="120"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="ARCare" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bi4-fH-Yh4">
-                                <rect key="frame" x="189" y="246" width="146" height="46"/>
+                                <rect key="frame" x="189" y="310" width="146" height="46"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" weight="black" pointSize="38"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LG3-kL-f5f">
-                                <rect key="frame" x="104" y="300" width="166" height="40"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LG3-kL-f5f">
+                                <rect key="frame" x="104" y="340" width="166" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <state key="normal" title="SCAN QR CODE">
@@ -176,6 +285,11 @@
     </scenes>
     <resources>
         <image name="logo" width="200" height="200"/>
+        <image name="logo200" width="200" height="200"/>
+        <image name="no_image" width="1280" height="1280"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="ru3-Yj-yFw"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>

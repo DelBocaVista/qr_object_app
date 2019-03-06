@@ -52,8 +52,12 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
                 videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
                 videoPreviewLayer?.videoGravity = .resizeAspectFill
                 videoPreviewLayer?.frame = view.layer.bounds
-                view.layer.addSublayer(videoPreviewLayer!)
                 
+                let scanRect = CGRect(x: 0, y: 0, width: 100, height: 100)
+                let rectOfInterest = videoPreviewLayer!.metadataOutputRectConverted(fromLayerRect: scanRect)
+                captureMetadataOutput.rectOfInterest = rectOfInterest
+                
+                view.layer.addSublayer(videoPreviewLayer!)
             } catch {
                 print("Error Device Input")
             }
@@ -76,17 +80,39 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             captureMetadataOutput.setMetadataObjectsDelegate(self, queue: .main)
             captureMetadataOutput.metadataObjectTypes = [.qr] //AVMetadataObject.ObjectType
             
-            captureSession.startRunning()
-            
             videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
             videoPreviewLayer?.videoGravity = .resizeAspectFill
             videoPreviewLayer?.frame = view.layer.bounds
+            
+            let rectSize: CGFloat = 200
+            let rectX = ((videoPreviewLayer?.frame.size.width)! - rectSize) / 2
+            let rectY = ((videoPreviewLayer?.frame.size.height)! - rectSize) / 2
+            let scanRect = CGRect(x: rectX, y: rectY, width: rectSize, height: rectSize)
+            
+            captureSession.startRunning()
+            let rectOfInterest = videoPreviewLayer!.metadataOutputRectConverted(fromLayerRect: scanRect)
+            captureMetadataOutput.rectOfInterest = rectOfInterest
+            
             view.layer.addSublayer(videoPreviewLayer!)
             
+            let codeFrame = UIView()
+            codeFrame.layer.borderColor = UIColor.init(white: 1.0, alpha: 0.3).cgColor
+            codeFrame.layer.borderWidth = 15
+            codeFrame.frame = CGRect.zero
+            codeFrame.translatesAutoresizingMaskIntoConstraints = false
+            
+            codeFrame.frame = scanRect
+            
+            view.addSubview(codeFrame)
         } catch {
             print("Error Device Input")
         }
     }
+    
+    /*override func viewWillDisappear(_ animated: Bool) {
+        captureSession?.stopRunning()
+        videoPreviewLayer = nil
+    }*/
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -156,7 +182,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             DispatchQueue.main.async {
                 //self.table.reloadData()
                 // Make segue to AR
-                print(data.debugDescription)
+                //print(data.debugDescription)
                 self.performSegue(withIdentifier: "segueToARSCNView", sender: nil)
             }
         } else {
@@ -176,7 +202,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         //ioManager.fetchData(idURL: scannedCode)   <-- Use this later!
         ioManager.fetchData(idURL: "items")
         
-        performSegue(withIdentifier: "segueToARSCNView", sender: nil)
+        //performSegue(withIdentifier: "segueToARSCNView", sender: nil)
     }
     
     func initAlerts() {

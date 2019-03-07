@@ -123,10 +123,10 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         }
     }
     
-    /*override func viewWillDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         captureSession?.stopRunning()
         videoPreviewLayer = nil
-    }*/
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

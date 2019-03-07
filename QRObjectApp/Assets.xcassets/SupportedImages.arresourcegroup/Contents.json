@@ -5,34 +5,10 @@
   },
   "resources" : [
     {
-      "filename" : "cold.arreferenceimage"
-    },
-    {
-      "filename" : "ear.arreferenceimage"
-    },
-    {
-      "filename" : "fish.arreferenceimage"
-    },
-    {
       "filename" : "man.arreferenceimage"
     },
     {
       "filename" : "poop.arreferenceimage"
-    },
-    {
-      "filename" : "sick.arreferenceimage"
-    },
-    {
-      "filename" : "sleep.arreferenceimage"
-    },
-    {
-      "filename" : "smart.arreferenceimage"
-    },
-    {
-      "filename" : "sound.arreferenceimage"
-    },
-    {
-      "filename" : "woman.arreferenceimage"
     }
   ]
 }

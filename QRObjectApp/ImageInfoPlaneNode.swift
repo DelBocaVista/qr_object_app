@@ -33,9 +33,11 @@ class ImageInfoPlaneNode: SCNNode {
         //self.worldPosition.x -= Float((referenceImage.physicalSize.width - infoPlane.width) / 2)
         //self.worldPosition.y += Float((referenceImage.physicalSize.height - infoPlane.height) / 2)
         let (xDiff, yDiff) = calculatePlanePositionDifference(direction: direction, planeWidth: infoPlane.width, refImageWidth: referenceImage.physicalSize.width, planeHeight: infoPlane.height, refImageHeight: referenceImage.physicalSize.height)
-        //print("xDiff: " + xDiff.description + ", yDiff: " + yDiff.description)
         self.worldPosition.x += xDiff
         self.worldPosition.y += yDiff
+        print("direction: " + direction + ", refX: " + imageAnchor.transform.columns.3.x.description + ", refY: " + imageAnchor.transform.columns.3.x.description)
+        print("xDiff: " + xDiff.description + ", yDiff: " + yDiff.description)
+        print("direction: " + direction + ", planeX: " + self.worldPosition.x.description + ", planeY: " + self.worldPosition.y.description)
         
         self.addChildNode(infoPlaneNode)
     }

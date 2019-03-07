@@ -12,20 +12,6 @@ import CoreData
 
 //   let welcome = try? newJSONDecoder().decode(Welcome.self, from: jsonData)
 
-import Foundation
-
-typealias ARItems = [ARItemElement]
-
-struct ARItemElement: Codable {
-    let id, name, color, length: String
-    let width, height, description: String
-    
-    enum CodingKeys: String, CodingKey {
-        case id = "_id"
-        case name, color, length, width, height, description
-    }
-}
-
 public class IOManager: NSObject {
     
     private var fetchedItems: ARItems
@@ -42,7 +28,7 @@ public class IOManager: NSObject {
         let baseURL = "http://kth.elack.net:8081/$URL$"
         
         let completeURL: String = replaceHolders(baseString: baseURL, idURL: idURL)
-        
+        print("completeURL: " + completeURL)
         guard let url = URL(string: completeURL) else {return}
         
         let task = URLSession.shared.dataTask(with: url) {(data, response, error) in

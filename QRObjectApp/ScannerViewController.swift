@@ -21,8 +21,13 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
     
     var alertNoDataFetched = UIAlertController()
     
+    var isCoordinatesSet = false
+    var setRectX: CGFloat = 0
+    var setRectY: CGFloat = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        initAlerts()
         
         // Set listener to notification key
         NotificationCenter.default.addObserver(self, selector:
@@ -32,7 +37,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         // Do any additional setup after loading the view.
         captureDevice = AVCaptureDevice.default(for: .video)
         // Check if captureDevice returns a value and unwrap it
-        if let captureDevice = captureDevice {
+        /*if let captureDevice = captureDevice {
             
             do {
                 let input = try AVCaptureDeviceInput(device: captureDevice)
@@ -52,12 +57,16 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
                 videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
                 videoPreviewLayer?.videoGravity = .resizeAspectFill
                 videoPreviewLayer?.frame = view.layer.bounds
-                view.layer.addSublayer(videoPreviewLayer!)
                 
+                let scanRect = CGRect(x: 0, y: 0, width: 100, height: 100)
+                let rectOfInterest = videoPreviewLayer!.metadataOutputRectConverted(fromLayerRect: scanRect)
+                captureMetadataOutput.rectOfInterest = rectOfInterest
+                
+                view.layer.addSublayer(videoPreviewLayer!)
             } catch {
                 print("Error Device Input")
             }
-        }
+        }*/
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,16 +85,47 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             captureMetadataOutput.setMetadataObjectsDelegate(self, queue: .main)
             captureMetadataOutput.metadataObjectTypes = [.qr] //AVMetadataObject.ObjectType
             
-            captureSession.startRunning()
-            
             videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
             videoPreviewLayer?.videoGravity = .resizeAspectFill
             videoPreviewLayer?.frame = view.layer.bounds
+            
+            let navbarHeight = self.navigationController!.navigationBar.frame.height
+            print("navbarHeight: " + navbarHeight.description)
+            let rectSize: CGFloat = 200
+            
+            // Quick-fix thanks to videoPreviewLayer?.frame.size.height being smaller when popped
+            // from view stack, no idea why.
+            if !isCoordinatesSet {
+                setRectX = ((videoPreviewLayer?.frame.size.width)! - rectSize) / 2
+                setRectY = ((videoPreviewLayer?.frame.size.height)! - rectSize) / 2 - navbarHeight
+                isCoordinatesSet = true
+            }
+            
+            let scanRect = CGRect(x: setRectX, y: setRectY, width: rectSize, height: rectSize)
+            
+            captureSession.startRunning()
+            let rectOfInterest = videoPreviewLayer!.metadataOutputRectConverted(fromLayerRect: scanRect)
+            captureMetadataOutput.rectOfInterest = rectOfInterest
+            
             view.layer.addSublayer(videoPreviewLayer!)
             
+            let codeFrame = UIView()
+            codeFrame.layer.borderColor = UIColor.init(white: 1.0, alpha: 0.4).cgColor
+            codeFrame.layer.borderWidth = 15
+            codeFrame.frame = CGRect.zero
+            codeFrame.translatesAutoresizingMaskIntoConstraints = false
+            
+            codeFrame.frame = scanRect
+            
+            view.addSubview(codeFrame)
         } catch {
             print("Error Device Input")
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        captureSession?.stopRunning()
+        videoPreviewLayer = nil
     }
     
     override func didReceiveMemoryWarning() {
@@ -156,8 +196,9 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             DispatchQueue.main.async {
                 //self.table.reloadData()
                 // Make segue to AR
-                print(data.debugDescription)
-                self.performSegue(withIdentifier: "segueToARSCNView", sender: nil)
+                //print(data.debugDescription)
+                //self.performSegue(withIdentifier: "segueToARSCNView", sender: nil)
+                self.performSegue(withIdentifier: "segueToTableView2", sender: nil)
             }
         } else {
             DispatchQueue.main.async {
